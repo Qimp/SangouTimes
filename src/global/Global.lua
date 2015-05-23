@@ -44,5 +44,17 @@ MSG_BATTLE.ATTACK_START = 1
 MSG_BATTLE.ATTACK_FINISH = 2
 
 
+BuildType = {}
+BuildType.Smith = 1
+BuildType.Prop = 2
+
+
+BuildExpLv = {}
+BuildExpLv.Small = 0
+BuildExpLv.Mid = 10000
+BuildExpLv.Big = 100000
+BuildExpLv.Huge = 1000000
+
+
 
 --endregion

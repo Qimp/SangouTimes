@@ -73,7 +73,6 @@ function TeamData:getArmyNodeByRow( row )
         end
     end
 end
-
 -- 注册节点生命周期
 function TeamData:registerArmyNode( armyNode )
     local function enterOrExit(event)

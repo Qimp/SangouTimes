@@ -128,6 +128,13 @@ function gfun.createScaleItem( parent, str, fontSize, frame, pos, anchorPos, tag
         return item
     end
 end
+-- 创建单个按钮
+function gfun.createSingleBtn( parent, str, fontSize, frame, pos, anchorPos, tag, func )
+    local menu = gfun.createMenu(parent)
+    if menu then
+        return gfun.createScaleItem( menu, str, fontSize, frame, pos, anchorPos, tag, func )
+    end
+end
 -- 创建九宫格
 function gfun.createScale9SpriteWithFrameName( parent, frameName, size, pos, anchorPoint )
     if frameName == nil or frameName == "" then

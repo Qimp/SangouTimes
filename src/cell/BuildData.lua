@@ -52,6 +52,10 @@ function BuildData:addExp( num )
     num = num or 0
     self.m_exp = self.m_exp + num
 end
+-- 获取经验值
+function BuildData:getExp()
+    return self.m_exp
+end
 -- 获取名字
 function BuildData:getBuildName()
     local cfg = self.m_cfg 
@@ -60,6 +64,26 @@ end
 -- 获取配置id
 function BuildData:getBuildCfgId()
     return self.m_cfgId
+end
+-- 获取已经开发的功能列表
+function BuildData:getOpenFuncList()
+    local exp = self.m_exp
+    local cfg = self.m_cfg 
+    local totalFuncList = cfg["m_funcList"]
+    local funcList = {}
+    local needList = {BuildExpLv.Small, BuildExpLv.Mid, BuildExpLv.Big, BuildExpLv.Huge}
+
+    for k, needExp in ipairs(needList) do
+        if exp >= needExp then
+            local list = totalFuncList[k] or {}
+            for k, funcType in ipairs(list) do
+                table.insert(funcList, funcType )
+            end
+        else
+            break
+        end
+    end
+    return funcList
 end
 
 

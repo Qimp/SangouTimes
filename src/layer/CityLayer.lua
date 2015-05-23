@@ -3,8 +3,9 @@
 --此文件由[BabeLua]插件自动生成
 
 require "src.manager.CityManager"
+require "src.layer.BuildingLayer"
 
-
+local str_btn_quit = "退出"
 
 CityLayer = class("CityLayer",function()
     return cc.Layer:create()
@@ -29,7 +30,14 @@ end
 -- 初始化
 function CityLayer:init(cfgId)
     self.m_cityCfgId = cfgId
+
+    -- 更新城市建筑
     self:updateBulidShow()
+
+    -- 退出按钮
+    gfun.createSingleBtn( self, str_btn_quit, 20, nil, cc.p(900,300), nil, nil, function()
+        self:quit()
+    end )
 end
 -- 更新城市建筑
 function CityLayer:updateBulidShow()
@@ -48,7 +56,8 @@ function CityLayer:updateBulidShow()
     end
 
     local function onBuild(tag,sender)
-        
+        local data = sender["temp_data"]
+        BuildingLayer:create( self, data )
     end
     local menu = gfun.createMenu( node )
     -- 创建建筑
@@ -58,7 +67,8 @@ function CityLayer:updateBulidShow()
         if data:isOpen() then
             local bulidName = data:getBuildName()
             local cfgId = data:getBuildCfgId()
-            gfun.createScaleItem( menu, bulidName, 20, "", cc.p(200,300 - i*30), nil, cfgId, onBuild )
+            local item = gfun.createScaleItem( menu, bulidName, 20, "", cc.p(200,300 - i*30), nil, cfgId, onBuild )
+            item["temp_data"] = data
             i = i + 1
         end
     end
