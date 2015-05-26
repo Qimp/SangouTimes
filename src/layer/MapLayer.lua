@@ -5,8 +5,10 @@
 
 require "src.manager.CityManager"
 require "src.layer.CityLayer"
+require "src.manager.TimeManager"
 
 local str_img_map = "res/mainmap.jpg"
+
 
 MapLayer = class("MapLayer",function()
     return cc.Layer:create()
@@ -28,9 +30,10 @@ function MapLayer.create()
 end
 -- 初始化
 function MapLayer:init()
+    -- 时间
+    TimeManager:init( self )
     -- 地图
-    --gfun.createSprWithFileName( self, str_img_map, gg.midPos, nil, nil)
-    gfun.createScale9SpriteWithFileName( self, "res/bg.png", cc.size(960,640), gg.midPos, nil )
+    gfun.createSprWithFileName( self, str_img_map, gg.midPos, nil, nil)
     local menu = gfun.createMenu( self )
 
     local function onCity(tag,sender)
@@ -40,7 +43,7 @@ function MapLayer:init()
         local cfg = cityData:getCityCfg()
         local x = cfg["m_x"] or 0
         local y = cfg["m_y"] or 0
-        gfun.createScaleItem( menu, cfg["m_name"], 50, "city1_1.png", cc.p(x,y), nil, cfgId, onCity )
+        gfun.createScaleItem( menu, cfg["m_name"], 50, nil, "city1_1.png", cc.p(x,y), nil, cfgId, onCity )
     end
 
 end

@@ -39,7 +39,7 @@ function CityData:init(cfgId)
     self.m_cfg = cfg
     -- 读取数据
 
-    -- 创建建筑
+    -- 创建建筑数据
     for k, cfgId in ipairs( cfg["m_bulid"] ) do
         local data = BuildData.create( self, cfgId)
         if data then
@@ -47,7 +47,7 @@ function CityData:init(cfgId)
         end
     end
 end
--- 获取城市名字
+-- 获取城市配置
 function CityData:getCityCfg()
     return self.m_cfg
 end
@@ -64,5 +64,19 @@ function CityData:addExp( num )
     num = num or 0
     self.m_exp = self.m_exp + num
 end
-
+-- 获取经验值
+function CityData:getExp()
+    return self.m_exp
+end
+-- 获取城市等级和字符串
+function CityData:getCityLv()
+    local exp = self.m_exp
+    local expLvList = { CityExpLv.Huge, CityExpLv.Big, CityExpLv.Mid, CityExpLv.Small }
+    local strList= { "巨", "大", "中","小" }
+    for k, data in ipairs(expLvList) do
+        if exp >= data then
+            return data , strList[k]
+        end
+    end
+end
 --endregion

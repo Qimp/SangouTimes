@@ -99,11 +99,14 @@ function gfun.createMenu( parent, pos )
     return menu
 end
 -- 创建菜单项
-function gfun.createScaleItem( parent, str, fontSize, frame, pos, anchorPos, tag, func )
+function gfun.createScaleItem( parent, str, fontSize, color, frame, pos, anchorPos, tag, func )
     str = str or ""
     fontSize = fontSize or 1
     local lab = cc.Label:createWithSystemFont(str," ",fontSize)
     if lab then
+        if color then
+            lab:setColor(color)
+        end
         local item = cc.MenuItemLabel:create(lab)
         if item then
             if frame and string.len(frame)>1 then
@@ -113,7 +116,7 @@ function gfun.createScaleItem( parent, str, fontSize, frame, pos, anchorPos, tag
                     local midP = gfun.getNodeMidPos(item)
                     gfun.addChild( item, sp, midP, nil )
                     lab:setPosition(midP)
-                    lab:setAnchorPoint(gg.midPos)
+                    lab:setAnchorPoint(gg.midPoint)
                     lab:setLocalZOrder(1)
                 end
             end
@@ -129,10 +132,10 @@ function gfun.createScaleItem( parent, str, fontSize, frame, pos, anchorPos, tag
     end
 end
 -- 创建单个按钮
-function gfun.createSingleBtn( parent, str, fontSize, frame, pos, anchorPos, tag, func )
+function gfun.createSingleBtn( parent, str, fontSize, color, frame, pos, anchorPos, tag, func )
     local menu = gfun.createMenu(parent)
     if menu then
-        return gfun.createScaleItem( menu, str, fontSize, frame, pos, anchorPos, tag, func )
+        return gfun.createScaleItem( menu, str, fontSize, color, frame, pos, anchorPos, tag, func )
     end
 end
 -- 创建九宫格
@@ -212,4 +215,5 @@ function gfun.sendEvent( sender, whichEvent, cmd, w1, w2, w3)
     local eventDispatcher = sender:getEventDispatcher()
     eventDispatcher:dispatchEvent(event)
 end
+
 --endregion

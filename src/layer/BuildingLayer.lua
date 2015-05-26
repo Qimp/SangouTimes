@@ -4,6 +4,8 @@
 
 require "src.cfg.FuncStrCfg"
 
+local str_img_btn2 = "ui_btn_2.png"
+
 
 local str_btn_quit = "出去"
 
@@ -34,13 +36,15 @@ function BuildingLayer:init( data )
     end
     self.m_build = data
 
+    local cfgId = data:getBuildCfgId()
+    local cfg = BuildCfg[cfgId]
+    -- 背景
+    gfun.createSprWithFileName( self, cfg["m_bg"], gg.midPos, nil, nil)
     -- 创建菜单显示
     self:updateMenuShow()
 
-    -- 退出按钮
-    gfun.createSingleBtn( self, str_btn_quit, 20, nil, cc.p(900,300), nil, nil, function()
-        self:quit()
-    end )
+    -- 注册消息
+    self:registerMsg()
 
 end
 -- 更新菜单
@@ -61,20 +65,45 @@ function BuildingLayer:updateMenuShow()
     local function onBtn(tag,sender)
         self:onButtonCallFunc(tag,sender) 
     end
+    local startY = 400
+    local moveY = 35
     local menu = gfun.createMenu(node,gg.zeroPoint)
     local funcList = bulidData:getOpenFuncList()
     for k, funcType in ipairs(funcList) do
         local str = FuncStrCfg[funcType] or ""
-        gfun.createScaleItem( menu, str, 20, nil, cc.p(300,500-k*50), nil, funcType, onBtn )
+        gfun.createScaleItem( menu, str, 24, gg.color_black, str_img_btn2, cc.p(gg.midX,startY-k*moveY), nil, funcType, onBtn )
     end
+    -- 退出按钮
+    gfun.createScaleItem( menu, str_btn_quit, 24, gg.color_black, str_img_btn2, cc.p(gg.midX,startY-(#funcList+1)*moveY), nil, nil, function()
+        self:quit()
+    end )
 end
 -- 按钮回调
 function BuildingLayer:onButtonCallFunc(tag,sender)
-    if tag == 1 then   -- 购买
-        cclog("tag == " .. tag)
-    elseif tag == 2 then -- 卖出
-        cclog("tag == " .. tag)
+    if tag == FuncType.Buy then   -- 购买
+
+    elseif tag == FuncType.Sell then -- 卖出
     end
+
+    cclog("tag == " .. tag)
+end
+-- 处理父界面
+function BuildingLayer:dualWithParentWin( bShow )
+    local parent = self:getParent()
+    if parent and parent.showMenuByChild then
+        parent:showMenuByChild(bShow)
+    end
+end
+-- 注册消息
+function BuildingLayer:registerMsg()
+    local function enterOrExit(event)
+        if event == "enter" then
+            self:dualWithParentWin( false )
+        elseif event == "exit" then
+            self:dualWithParentWin( true )
+        end
+    end
+    self:registerScriptHandler(enterOrExit)
 end
 -- 退出
 function BuildingLayer:quit()

@@ -170,7 +170,7 @@ function ArmyNode:updateArmyShow()
     if labName then
         labName:setString(hero["m_name"])
     else
-        labName = gfun.CreateLabel( self, hero["m_name"], gg.color_withe, gg.systemFont, 16, cc.p(0,-30), nil)
+        labName = gfun.CreateLabel( self, hero["m_name"], gg.color_white, gg.systemFont, 16, cc.p(0,-30), nil)
         if labName then
             labName:setTag(s_nameLabTag)
         end
@@ -180,7 +180,7 @@ function ArmyNode:updateArmyShow()
     if labNum then
         labNum:setString(hero:getSoldierNum())
     else
-        labNum = gfun.CreateLabel( self, hero:getSoldierNum(), gg.color_withe, gg.systemFont, 30, cc.p(0,-50), nil)
+        labNum = gfun.CreateLabel( self, hero:getSoldierNum(), gg.color_white, gg.systemFont, 30, cc.p(0,-50), nil)
         if labNum then
             labNum:setTag(s_numLabTag)
             labNum:setLocalZOrder(10)
